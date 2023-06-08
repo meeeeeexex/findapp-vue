@@ -48,14 +48,14 @@
 
 
     <div class="announcement-board">
-      <div class="announcement" v-for="announcement in filteredAnnouncements" :key="announcement.id">
+      <div class="announcement" v-for="announcement in filteredAnnouncements" :key="announcement.id" @click="handleItemClick(announcement.id)">
         <div class="photo">
           <img :src="announcement.thing.photo" alt="Photo">
         </div>
         <div class="details">
           <p>{{ announcement.thing.description }}</p>
-          <p>Date of Action: {{ announcement.date_of_action }}</p>
-          <p>Date of Post: {{ announcement.date_of_post }}</p>
+          <p>Date of Action: {{ addDateFormatting(announcement.date_of_action) }}</p>
+          <p>Date of Post: {{ addDateFormatting(announcement.date_of_post) }}</p>
           <p>Place: {{ announcement.place }}</p>
           <p>Posted by: {{ announcement.user.nickname }}</p>
         </div>
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import { formatDate } from "@/helpers/formatDate";
+
 export default {
   data() {
     return {
@@ -131,9 +133,20 @@ export default {
     filteredTags() {
       let search = this.searchTerm.toLowerCase();
       return this.tags.filter(tag => tag.toLowerCase().includes(search));
+    },
+
+    computedDateOfAction(date) {
+      return formatDate(date)
+    },
+
+    computedDateOfPost(date) {
+      return formatDate(date)
     }
   },
   methods: {
+    handleItemClick(id) {
+      this.$router.push(`/board-item/${id}`)
+    },
     addTag(tag) {
       if (!this.selectedTags.includes(tag)) {
         this.selectedTags.push(tag);
@@ -150,6 +163,9 @@ export default {
       console.log("Should be hidden")
       this.searchTerm = '';
     },
+    addDateFormatting(date) {
+      return formatDate(date)
+    }
   }
 }
 </script>

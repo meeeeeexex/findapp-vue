@@ -19,14 +19,15 @@
           ref="codeInputs"
       />
     </div>
-    <small class="info">
-      This is design only. We didn't actually send you an email as we don't have your email, right?
-    </small>
+    <div class="text-center mb-2">
+      <v-btn rounded color="teal accent-3" @click="handleSubmit" dark>Verify</v-btn>
+    </div>
   </div>
 </template>
 
 <script>
 import { ref, nextTick } from 'vue'
+import { useRouter } from "vue-router";
 
 export default {
   name: "VerifyAccount",
@@ -34,12 +35,16 @@ export default {
       const email = ref('kek@gmai.com')
       const codes = Array(7).fill('')
       const codeInputs = ref(null)
+      const router = useRouter()
 
       const focusNext = (index) => {
-        console.log('focusNext')
         if (index < codes.length - 1) {
           nextTick(() => codeInputs.value[index + 1].focus())
         }
+      }
+
+      const handleSubmit = () => {
+        router.push('/board')
       }
 
       const focusPrevious = (index) => {
@@ -60,7 +65,8 @@ export default {
         focusNext,
         focusPrevious,
         focusOnInput,
-        codeInputs
+        codeInputs,
+        handleSubmit
       }
 
   }

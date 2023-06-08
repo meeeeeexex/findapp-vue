@@ -4,8 +4,8 @@
     <div class="main">
       <h1 id="text2">Find App</h1>
       <h2 class="desc">We are product which helps with contacting<br> someone who lost our found you thing</h2>
-      <form id="form" class="user-form">
-        <input type="text" class="input" id="input" placeholder="Enter thing what you found or lost" autocomplete="off">
+      <form id="form" class="user-form" @submit.prevent="nextStep">
+        <input v-model.trim="description" type="text" class="input" id="input" placeholder="Enter thing what you found or lost" autocomplete="off">
       </form>
     </div>
 
@@ -14,8 +14,22 @@
 </template>
 
 <script>
+
 export default {
   name: "WelcomePage",
+  data() {
+    return {
+      description: ''
+    }
+  },
+  methods: {
+    nextStep: function () {
+      if ( this.description.length > 0) {
+        this.$store.dispatch('updateDescription', this.description)
+        this.$router.push('/process')
+      }
+    }
+  },
   mounted() {
     const textEl = document.getElementById('text2')
     const speedEl = 0.6
@@ -35,8 +49,6 @@ export default {
       idx++
 
       if (idx > text.length) {
-        console.log('logged')
-        // Set a delay of 2 seconds before calling writeText() again
         setTimeout(writeText, 3000)
         idx = 1
         return

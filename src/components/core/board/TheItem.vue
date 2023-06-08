@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import {defineComponent, ref} from 'vue'
+import {defineComponent, ref } from 'vue'
 import {GoogleMap, Marker, MarkerCluster} from 'vue3-google-map'
 import image from '@/components/core/board/images/headphone.png';
 import image2 from '@/components/core/board/images/heart.png';
@@ -107,6 +107,13 @@ export default defineComponent({
     const showInfo = ref(false)
     const selectedMarker = ref(null)
     const showPopupOverlay = ref(false)
+    //const data = ref({});
+
+    // onBeforeMount(() => {
+    //   axios.get('smth').then((res) => {
+    //     data.value = res.data
+    //   })
+    // })
 
     const addMarker = (event) => {
       console.log('added marker')

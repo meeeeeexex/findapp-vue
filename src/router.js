@@ -18,7 +18,7 @@ const router = createRouter({
         {path: '/register', component: TheRegister},
         {path: '/verify' , component: VerifyAccount}, // todo: remake with id
         {path: '/board', component: TheWholeBoard},
-        {path: '/board-item', component: TheItem}, // todo: remake with id
+        {path: '/board-item/:id', component: TheItem}, // todo: remake with id
         {path: '/:notFound(.*)', component: NotFound},
 
     ]

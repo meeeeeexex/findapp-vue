@@ -1,94 +1,183 @@
 <template>
-  <div class="registration-form">
-    <h2>Register</h2>
-    <form @submit.prevent="submitForm">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" v-model="formData.name" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model="formData.email" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="formData.password" required>
-      </div>
-      <div class="form-group">
-        <label for="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password" v-model="formData.confirmPassword" required>
-      </div>
-      <button type="submit">Register</button>
-    </form>
-  </div>
+  <v-app id="inspire">
+    <div class="main">
+      <v-alert
+        v-if="isAlertOpened"
+        :color="alertColor"
+        :icon="alertIcon"
+        :title="alertTitle"
+        :closable="true"
+        position="fixed"
+        class="alert"
+        :text="alertText"
+        @click:close="isAlertOpened = false"
+      ></v-alert>
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="8">
+            <v-card class="elevation-12">
+              <v-window v-model="step">
+                <v-window-item :value="1">
+                  <v-row>
+                    <v-col cols="12" md="8">
+                      <v-card-text class="mt-12">
+                        <h1
+                            class="text-center display-2 teal--text text--accent-3"
+                        >Sign in to Findapp</h1>
+                        <h4 class="text-center mt-4">Ensure your email for registration</h4>
+                        <v-form @submit.prevent>
+                          <v-text-field
+                              label="Email"
+                              name="Email"
+                              prepend-icon="email"
+                              type="text"
+                              color="teal accent-3"
+                          />
+                          <v-text-field
+                              id="password"
+                              label="Password"
+                              name="password"
+                              prepend-icon="lock"
+                              type="password"
+                              color="teal accent-3"
+                          />
+                        </v-form>
+                        <h3 class="text-center mt-4">Forgot your password ?</h3>
+                      </v-card-text>
+                      <div class="text-center mt-3 mb-4">
+                        <v-btn rounded color="teal accent-3" type="submit" dark>SIGN IN</v-btn>
+                      </div>
+                    </v-col>
+                    <v-col cols="12" md="4" class="container teal accent-3">
+                      <v-card-text class="white--text mt-12">
+                        <h1 class="text-center display-1">Hello, Friend!</h1>
+                        <h5
+                            class="text-center mt-4"
+                        >Enter your personal details and start journey with us</h5>
+                      </v-card-text>
+                      <div class="text-center">
+                        <v-btn rounded outlined dark @click="step++">SIGN UP</v-btn>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-window-item>
+                <v-window-item :value="2">
+                  <v-row class="fill-height">
+                    <v-col cols="12" md="4" class="teal accent-3">
+                      <v-card-text class="white--text mt-12">
+                        <h1 class="text-center display-1">Welcome Back!</h1>
+                        <h5
+                            class="text-center mt-4"
+                        >To Keep connected with us please login with your personnel info</h5>
+                      </v-card-text>
+                      <div class="text-center">
+                        <v-btn rounded outlined dark @click="step--">Sign in</v-btn>
+                      </div>
+                    </v-col>
+
+                    <v-col cols="12" md="8">
+                      <v-card-text class="mt-12">
+                        <h1 class="text-center display-2 teal--text text--accent-3">Create Account</h1>
+                        <h4 class="text-center mt-4">Ensure your email for registration</h4>
+                        <v-form  @submit.prevent>
+                          <v-text-field
+                              label="Name"
+                              name="Name"
+                              v-model="nickname"
+                              prepend-icon="person"
+                              type="text"
+                              color="teal accent-3"
+                          />
+                          <v-text-field
+                              label="Email"
+                              name="Email"
+                              v-model="email"
+                              prepend-icon="email"
+                              type="text"
+                              color="teal accent-3"
+                          />
+
+                          <v-text-field
+                              id="password"
+                              label="Password"
+                              name="password"
+                              prepend-icon="lock"
+                              type="password"
+                              v-model="password"
+                              color="teal accent-3"
+                          />
+                        </v-form>
+                      </v-card-text>
+                      <div class="text-center mb-2">
+                        <v-btn rounded color="teal accent-3" @click="handleSubmit" dark>SIGN UP</v-btn>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-window-item>
+              </v-window>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+  </v-app>
 </template>
+
 <script>
+// import axios from 'axios'
 export default {
-  name: "TheRegister",
-  data() {
-    return {
-      formData: {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      }
-    };
+  data: () => ({
+    step: 1,
+    email: '',
+    nickname: '',
+    password: '',
+    alertColor: '',
+    alertTitle: '',
+    alertIcon: '',
+    alertText: '',
+    isAlertOpened: false
+  }),
+  props: {
+    source: String
   },
   methods: {
-    submitForm() {
-      // Here, you can add your form submission logic
-      console.log(this.formData);
+    handleSubmit: function () {
+      // axios.post('url', {
+      //   email: this.email,
+      //   password: this.password,
+      //   nickname: this.nickname
+      // }).catch((e) =>  {
+      //   this.alertText = e
+      //   this.alertTitle = 'Something went wrong'
+      //   this.alertIcon = '$error'
+      //   this.alertColor = 'error'
+      //   this.isAlertOpened = true
+      // }).then((res) => {
+      //   if (res?.data) {
+      //     this.$router.push('/verify')
+      //   }
+      // })
+      this.$router.push('/verify')
     }
   }
-}
+};
 </script>
 
-<style scoped>
-.registration-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 5px;
+<style scoped lang="css">
+.main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
+.container {
+  padding: 30px !important;
 }
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-button[type="submit"] {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  background-color: #532891;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.alert {
+  left: auto;
+  right: auto;
+  z-index: 1000;
+  top: 5%;
 }
 </style>

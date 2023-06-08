@@ -4,8 +4,8 @@
       <div class="popup-content">
         <h2>Did you lose or find something?</h2>
         <div class="buttons">
-          <button @click="userChoice('lost')" class="popup-button">I lost something</button>
-          <button @click="userChoice('found')" class="popup-button">I found something</button>
+          <button @click="nextStep(true)" class="popup-button">I lost something</button>
+          <button @click="nextStep(false)" class="popup-button">I found something</button>
         </div>
       </div>
     </div>
@@ -21,10 +21,10 @@ export default {
     };
   },
   methods: {
-    userChoice(choice) {
-      alert(`You chose: ${choice}`);
-      this.showPopup = false;
-    },
+    nextStep: function (val) {
+      this.$store.dispatch('updateIsLost', val)
+      this.$router.push('/maps')
+    }
   }
 }
 </script>
